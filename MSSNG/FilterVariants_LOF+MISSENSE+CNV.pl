@@ -178,74 +178,55 @@ while (my $line = <IN2>) {
         if ($data[$fun_lof] =~ m/(exonic|splicing)/) {
                 if ($data[$exo_lof] =~ m/(frameshift deletion|frameshift insertion|nonframeshift deletion|nonframeshift insertion|nonsynonymous SNV|stopgain|stoploss|NA)/) {
                         if (($data[$gn1_lof] <= 0.01) && ($data[$gn2_lof] <= 0.01) && ($data[$kg1_lof] <= 0.01) && ($data[$abr_lof] <= 12)) {
-
-				#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
-
+			
 				if (exists($related{$data[$sam_lof]})) {
 					my $fam = $related{$data[$sam_lof]};
-					#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 	
 					if (exists($hash{$fam}{$data[$sam_lof]})) {
-						#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 						if (!exists($hash{$fam}{$data[$sam_lof]}{ LOF })) {
-							#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							$hash{$fam}{$data[$sam_lof]}{ LOF } = "$line";
 						}
 						else {
-							#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							$hash{$fam}{$data[$sam_lof]}{ LOF } = "$hash{$fam}{$data[$sam_lof]}{ LOF }\n$line";
 						}
 					}
 					else {
 						$hash{$fam}{$data[$sam_lof]}{ LOF } = "$line";
-						#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 					}
 				}
 				else {
-					#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 					if ((exists($related{$data[$mom_lof]})) && ($mom_lof ne "-")) {
 						my $fam = $related{$data[$mom_lof]};
-						#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 
 						if (!exists($hash{$fam}{$data[$sam_lof]})) {
-							#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							$hash{$fam}{$data[$sam_lof]}{ LOF } = "$line";
 						}
 						else {
-							#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							if (!exists($hash{$fam}{$data[$sam_lof]}{ LOF })) {
-								#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 								$hash{$fam}{$data[$sam_lof]}{ LOF } = "$line";
 							}
 							else {
 								$hash{$fam}{$data[$sam_lof]}{ LOF } = "$hash{$fam}{$data[$sam_lof]}{ LOF }\n$line";
-								#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							}
 						}
 					}
 					elsif ((exists($related{$data[$dad_lof]})) && ($dad_lof ne "-")) {
 						my $fam = $related{$data[$dad_lof]};
-						#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 
 						if (!exists($hash{$fam}{$data[$sam_lof]})) {
-							#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							$hash{$fam}{$data[$sam_lof]}{ LOF } = "$line";
 						}
 						else {
-							#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 							if (!exists($hash{$fam}{$data[$sam_lof]}{ LOF })) {
-								#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 								$hash{$fam}{$data[$sam_lof]}{ LOF } = "$line";
 							}
 							else {
-								#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 								$hash{$fam}{$data[$sam_lof]}{ LOF } = "$hash{$fam}{$data[$sam_lof]}{ LOF }\n$line";
 							}
 						}
 					}
 					else {
 						push @LOF_fail, $line;
-						#print "$data[$sam_lof]\t$data[$mom_lof]\t$data[$dad_lof]\t$data[$rel_lof]\n";
 					}
 
 
@@ -256,15 +237,9 @@ while (my $line = <IN2>) {
 }
 close (IN2);
 
-
-#foreach my $key (@LOF_fail) {
-#	print "$key\n";
-#}
-
-
 # Genes via do Calcio
 my %CAL;
-open (IN, "/home/venus/mar/alunos/jaqueytw/ProfRita/Gabi/AnnovarAtualizado/Concatenar/Calcio.txt") or die "Fail to open calcio list\n";
+open (IN, "Calcio.txt") or die "Fail to open calcio list\n";
 while (my $line = <IN>) {
 	chomp ($line);
 	
@@ -280,7 +255,7 @@ close (IN);
 
 # Genes via da Relina
 my %REL;
-open (IN, "/home/venus/mar/alunos/jaqueytw/ProfRita/Gabi/AnnovarAtualizado/Concatenar/Relina.txt") or die "Fail to open relina list\n";
+open (IN, "Relina.txt") or die "Fail to open relina list\n";
 while (my $line = <IN>) {
         chomp ($line);
         
@@ -362,9 +337,6 @@ foreach my $key1 (sort keys %hash) {
 				foreach my $var (@VAR) {
 					my @data = split (/\t/, $var);
 					print "$key1\t$key2\tMIS\t$data[0]\t$data[1]\t$data[2]\t$data[3]\t$data[4]\t$data[$rel]\t$data[$gen]\t$data[$sex]\n";
-
-					#print "$key1\t$key2\tMissense\t$data[0]\t$data[1]\t$data[2]\t$data[3]\t$data[4]\t$data[$rel]\t$data[$gen]\n";
-					#print "$key1\t$key2\tMissense\t$var\n";
 				}
 			}
 			if (exists($hash{$key1}{$key2}{ LOF })) {
@@ -373,9 +345,6 @@ foreach my $key1 (sort keys %hash) {
 				foreach my $var (@VAR) {
 					my @data = split (/\t/, $var);
 					print "$key1\t$key2\tLOF\t$data[0]\t$data[1]\t$data[2]\t$data[3]\t$data[4]\t$data[$rel_lof]\t$data[$gen_lof]\t$data[$sex_lof]\n";
-
-					#print "$key1\t$key2\tLOF\t$data[0]\t$data[1]\t$data[2]\t$data[3]\t$data[4]\t$data[$rel_lof]\t$data[$gen_lof]\n";
-					#print "$key1\t$key2\tLOF\t$var\n";
 				}
 			}
 			if (exists($hash{$key1}{$key2}{ CNV })) {
@@ -384,9 +353,6 @@ foreach my $key1 (sort keys %hash) {
 				foreach my $var (@VAR) {
 					my @data = split (/\t/, $var);
 					print "$key1\t$key2\tCNV\t$data[2]\t$data[3]\t$data[4]\t$data[1]\t$data[5]\t$data[$rel_cnv]\t$data[$gen_cnv]\t$data[$sex_cnv]\n";
-
-					#print "$key1\t$key2\tCNV\t$data[0]\t$data[1]\t$data[2]\t$data[3]\t$data[4]\t$data[$rel_cnv]\t$data[$gen_cnv]\n";
-					#print "$key1\t$key2\tCNV\t$var\n";
 				}
 			}
 		}
