@@ -21,7 +21,7 @@ Usage : FilterVariants_LOF+MISSENSE+CNV.pl <VCF_file> <CNV_females_file> <CNV_ma
 
 # Realtionship file
 my %relation;
-open (IN, "/home/venus/mar/alunos/jaqueytw/ProfRita/Gabi/CEGH/Samples-Relationship_VCF.txt") or die "Fail to open relationship list\n";
+open (IN, "Samples-Relationship_VCF.txt") or die "Fail to open relationship list\n";
 while (my $line = <IN>) {
         chomp ($line);
 	my @data = split (/\t/, $line);
@@ -293,7 +293,7 @@ close (CNV2);
 
 # Genes via do Calcio
 my %CAL;
-open (IN, "/home/venus/mar/alunos/jaqueytw/ProfRita/Gabi/AnnovarAtualizado/Concatenar/Calcio.txt") or die "Fail to open calcio list\n";
+open (IN, "Calcio.txt") or die "Fail to open calcio list\n";
 while (my $line = <IN>) {
 	chomp ($line);
 	
@@ -309,7 +309,7 @@ close (IN);
 
 # Genes via da Relina
 my %REL;
-open (IN, "/home/venus/mar/alunos/jaqueytw/ProfRita/Gabi/AnnovarAtualizado/Concatenar/Relina.txt") or die "Fail to open relina list\n";
+open (IN, "Relina.txt") or die "Fail to open relina list\n";
 while (my $line = <IN>) {
         chomp ($line);
         
